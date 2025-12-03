@@ -15,7 +15,7 @@ class Actor:
     def ability_to(self, ability_type):
         if ability_type not in self.abilities:
             raise ValueError(
-                f"Actor '{self.name}' does not have the ability '{ability_type.__name__}'"
+                f"Actor '{self.name}' does not have the ability '{ability_type.__name__}'. "
                 f"Available abilities: {[a.__name__ for a in self.abilities.keys()]}"
             )
         return self.abilities[ability_type]

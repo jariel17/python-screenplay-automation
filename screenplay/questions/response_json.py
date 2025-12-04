@@ -1,5 +1,6 @@
 from screenplay.questions.base_question import Question
 
+
 class ResponseJsonField(Question):
     def __init__(self, field):
         self.field = field

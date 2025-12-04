@@ -1,4 +1,4 @@
-from tests.screenplay.actor import Actor
+from screenplay.actor import Actor
 from screenplay.abilities.call_api import CallAPI
 from screenplay.tasks.register_user import RegisterUser
 from screenplay.tasks.login_user import LoginUser

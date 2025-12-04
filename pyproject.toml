@@ -1,0 +1,27 @@
+[project]
+name = "screenplay-automation"
+version = "0.1.0"
+description = "RealWorld backend test automation using the Screenplay pattern"
+authors = [
+    {name = "Ariel Acosta", email = "jariel17@users.noreply.github.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "requests>=2.32.5,<3.0.0",
+]
+
+[tool.poetry]
+package-mode = true
+
+[[tool.poetry.packages]]
+include = "screenplay"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.1,<10.0.0"
+]

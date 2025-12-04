@@ -1,5 +1,5 @@
 import pytest
-from tests.screenplay.actor import Actor
+from screenplay.actor import Actor
 from screenplay.abilities.call_api import CallAPI
 
 BASE_URL = "http://localhost:8000"

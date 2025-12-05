@@ -1,0 +1,55 @@
+
+name: CI - Poetry Setup + Ruff (lint & format)
+
+on:
+  pull_request:
+    branches: [ develop ]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  quality-checks:
+    name: Poetry venv • Ruff lint & format
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python (3.12)
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Ensure lock & install dependencies (prod + dev)
+        run: |
+          if [ -f poetry.lock ]; then
+            echo "poetry.lock found"
+          else
+            echo "No lockfile, creating one..."
+            poetry lock --no-interaction
+          fi
+          poetry install --no-interaction --no-root --with dev
+
+      - name: Show versions (Poetry venv)
+        run: |
+          poetry --version
+          poetry run python --version
+          poetry run python -c "import requests, import importlib; print('requests', requests.__version__); print('screenplay pkg?', importlib.util.find_spec('screenplay') is not None)"
+
+      # --- Step 2: Ruff-only gates ---
+      - name: Lint (ruff)
+        run: poetry run ruff check .
+
+      - name: Format check (ruff)
+        run: poetry run ruff format --check
+        
+      # --- Step 3: Tests (pytest) ---
+      - name: Run unit tests (pytest)
+        run: poetry run pytest -q --disable-warnings --maxfail=1
+
+``

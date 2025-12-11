@@ -1,5 +1,7 @@
 import logging
 
+from requests.exceptions import JSONDecodeError
+
 from screenplay.abilities.call_api import CallAPI
 from screenplay.tasks.base_task import Task
 
@@ -15,8 +17,9 @@ class LoginUser(Task):
         response = api.post("/api/users/login", json=self.credentials)
         actor.remember("last_response", response)
         try:
-            token = response.json()["user"]["token"]
+            data = response.json()
+            token = data["user"]["token"]
             actor.remember("token", token)
-        except KeyError:
+        except (KeyError, JSONDecodeError):
             logger.warning("LoginUser: token not found in response")
         return response

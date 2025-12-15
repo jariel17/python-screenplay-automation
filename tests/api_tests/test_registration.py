@@ -9,7 +9,7 @@ from screenplay.tasks.register_user import RegisterUser
 
 BASE_URL = "http://localhost:8000"
 
-def test_user_can_login():
+def test_user_can_register():
     actor = Actor("Ariel").can(CallAPI(BASE_URL))
 
     username = f"ariel_{uuid4().hex[:6]}"
